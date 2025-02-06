@@ -7,7 +7,7 @@ const CartRepository = require('../Services/cart.services');
 
 // Ruta POST /generateData
 router.post('/generateData', async (req, res) => {
-  const { users, carts } = req.body; // Aquí recibimos el número de usuarios y carritos
+  const { users, carts } = req.body; // Body de la request 
 
   try {
     // Genera los usuarios de prueba y les asignamos carritos
@@ -19,7 +19,7 @@ router.post('/generateData', async (req, res) => {
       createdUsers.push(user);
 
       // Asigna un carrito ya creado (sin crear uno nuevo)
-      user.cart = mockUsers[i].cart; // Asignar el carrito ya generado
+      user.cart = mockUsers[i].cart; 
       await user.save();
     }
 
@@ -39,11 +39,10 @@ router.post('/generateData', async (req, res) => {
 // Ruta GET /mockingusers
 router.get('/mockingusers', async (req, res) => {
   try {
-    // Generar siempre 50 usuarios y 50 carritos (en memoria, sin guardar en DB)
-    const mockUsers = await generateMockUsers(50, 50, true); // El true indica que estamos en un GET, no en un POST
 
-    // Devolver los usuarios sin almacenarlos en la base de datos
-    res.status(200).json({ status: 'success', users: mockUsers });
+  const mockUsers = await generateMockUsers(50, 50, true); 
+
+  res.status(200).json({ status: 'success', users: mockUsers });
   } catch (error) {
     res.status(500).json({ status: 'error', message: 'Error generating mock users', details: error.message });
   }
